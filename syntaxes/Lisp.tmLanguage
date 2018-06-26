@@ -182,7 +182,7 @@
         <!-- common r5rs functions -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|[() ])(λ|syntax-error|assert|runtime-error|error|if|unless|cond|case|and|or|letrec|let|let\*|begin|delay|force|quasiquote|define|list|length|append|reverse|ilist|tuple|tuple-case|call-with-values|define-library|define-values|integer\?|rational\?|complex\?|real\?|number\?|exact\?|inexact\?|apply|call-with-current-continuation|call/cc|lets/cc|not|boolean\?|pair\?|symbol\?|vector\?|port\?|procedure\?|null\?|eof\?|value\?|reference\?|zero\?|list-ref|bytecode\?|function\?|ff\?|map|list\?|exec|yield|halt|wait|set-car!|set-cdr!)(?=[() ]|$)</string>
+			<string>(?:^|[() ])(λ|syntax-error|assert|runtime-error|error|if|unless|cond|case|and|or|letrec|let|let\*|begin|delay|force|quasiquote|define|list|length|append|reverse|ilist|tuple|tuple-case|call-with-values|define-library|define-values|integer\?|rational\?|complex\?|real\?|number\?|exact\?|inexact\?|apply|call-with-current-continuation|call/cc|lets/cc|not|boolean\?|pair\?|symbol\?|vector\?|port\?|procedure\?|null\?|eof\?|value\?|reference\?|zero\?|list-ref|bytecode\?|function\?|ff\?|map|list\?|exec|yield|halt|wait|set-car!|set-cdr!|else)(?=[() ]|$)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
@@ -194,16 +194,34 @@
 		</dict>
 
         <!-- libraries -->
-        <!-- owl/* -->
+        <!-- (owl strings) /uncompleted -->
 		<dict>
 			<key>match</key>
 			<string>(?:^|[() ])(runes->string|bytes->string|string->bytes|string->runes|list->string|string->list|string-length|string-eq\?|string-append|c-string|null-terminate|finish-string|render-string|render-quoted-string)(?=[() ]|$)</string>
 			<key>name</key>
 			<string>entity.name.function.ol.owl.strings</string>
         </dict>
-
-
-
+        <!-- (owl io) -->
+		<dict>
+			<key>match</key>
+			<string>(?:^|[() ])(fopen|fclose|sleep|open-output-file|open-input-file|port\?|flush-port|close-port|wait-write|blocks->port|closing-blocks->port|file->vector|file->list|vector->file|write-vector|port->byte-stream|stdin|stdout"stderr"display-to|print-to|display|print|print\*|print\*-to|write|writer-to|write-to|write-bytes|write-byte-vector|get-block|try-get-block|lines|system-print|fasl-save|fasl-load)(?=[() ]|$)</string>
+			<key>name</key>
+			<string>entity.name.function.ol.owl.io</string>
+        </dict>
+        <!-- (owl list) -->
+		<dict>
+			<key>match</key>
+			<string>(?:^|[() ])(null|caar|cadr|cdar|cddr|caaar|caadr|cadar|caddr|cdaar|cdadr|cddar|cdddr|zip|for|fold|foldr|for-each|has\?|getq|last|drop-while|mem|fold-map|foldr-map|append|reverse|keep|remove|all|some|smap|unfold|take-while|fold2|first|halve|caaaar|caaadr|caadar|caaddr|cadaar|cadadr|caddar|cadddr|cdaaar|cdaadr|cdadar|cdaddr|cddaar|cddadr|cdddar|cddddr)(?=[() ]|$)</string>
+			<key>name</key>
+			<string>entity.name.function.ol.owl.list</string>
+        </dict>
+        <!-- (owl interop) -->
+		<dict>
+			<key>match</key>
+			<string>(?:^|[() ])(interact|fork|accept-mail|wait-mail|check-mail|release-thread|catch-thread|set-signal-action|single-thread\?|kill|mail|fork-linked-server|fork-server|return-mails|fork-server|fork-linked|fork-named|exit-thread|shutdown|poll-mail-from|running-threads|par\*|start-nested-parallel-computation|wrap-the-whole-world-to-a-thunk|par|por\*|por|interop)(?=[() ]|$)</string>
+			<key>name</key>
+			<string>entity.name.function.ol.owl.list</string>
+        </dict>
 
 		<!-- <dict>
 			<key>captures</key>
