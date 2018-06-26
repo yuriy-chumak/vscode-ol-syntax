@@ -1,6 +1,6 @@
-# vscode-lisp
+# vscode-ol
 
-Lisp syntax for vscode
+Otus Lisp syntax for vscode
 
 ## License
 
@@ -10,4 +10,5 @@ https://github.com/bradrobertson/sublime-packages/tree/master/Lisp
 
 ## Author
 
+Yuriy Chumak,
 Yasuhiro Matsumoto (a.k.a. mattn)
