@@ -1,18 +1,19 @@
 {
-  "name": "Lisp",
-  "version": "0.1.7",
-  "publisher": "mattn",
-  "description": "Lisp syntax highlight",
+  "name": "vscode-ol",
+  "displayName": "Ol (Scheme) Syntax Highlight",
+  "version": "0.1.35",
+  "publisher": "uri",
+  "description": "Otus Lisp (Scheme, Lisp) syntax highlight",
   "author": {
-    "name": "Yasuhiro Matsumoto (a.k.a mattn)"
+    "name": "Yuriy Chumak (a.k.a uri)"
   },
   "icon": "images/lisp.png",
-  "categories": ["Languages"],
+  "categories": ["Programming Languages"],
   "license": "MIT",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/mattn/vscode-lisp"
+    "url": "https://github.com/yuriy-chumak/vscode-ol"
   },
   "dependencies": {},
   "devDependencies": {
@@ -24,19 +25,19 @@
   },
   "contributes": {
     "languages": [{
-      "id": "lisp",
-      "aliases": ["Lisp", "lisp"],
-      "extensions": [".lisp", ".cl", ".asd", ".ros", ".lsp", ".el"],
+      "id": "ol (scheme)",
+      "aliases": ["Lisp", "lisp", "Scheme", "scheme", "ol"],
+      "extensions": [".lisp", ".lsp", ".ol", ".scm"],
       "configuration": "./Lisp.configuration.json"
     }],
     "grammars": [{
-      "language": "lisp",
+      "language": "ol (scheme)",
       "scopeName": "source.lisp",
       "path": "./syntaxes/Lisp.tmLanguage"
     }]
   },
   "readmeFilename": "README.md",
   "bugs": {
-    "url": "https://github.com/mattn/vscode-lisp/issues"
+    "url": "https://github.com/yuriy-chumak/vscode-ol/issues"
   }
 }
