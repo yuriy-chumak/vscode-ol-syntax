@@ -1,6 +1,7 @@
-# vscode-ol-syntax
+# Otus Lisp (Scheme) syntax for vscode
 
-Otus Lisp (Scheme) syntax for vscode
+![intro](https://raw.githubusercontent.com/yuriy-chumak/vscode-ol-syntax/master/images/screenshot1.jpg)
+
 
 https://github.com/yuriy-chumak/vscode-ol-syntax
 
