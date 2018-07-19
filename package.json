@@ -1,20 +1,20 @@
 {
-  "name": "vscode-ol",
+  "name": "vscode-ol-syntax",
   "displayName": "Ol (Scheme) Syntax Highlight",
-  "version": "0.1.37",
-  "publisher": "uri",
-  "description": "Otus Lisp (Scheme, Lisp) syntax highlight",
+  "description": "Otus Lisp (Scheme, Lisp) VSCode Syntax Highlight",
+  "version": "0.1.38",
+  "publisher": "yuriy-chumak",
+
+  "repository": "https://github.com/yuriy-chumak/vscode-ol-syntax",
+  "license": "WTFPL",
+
   "author": {
     "name": "Yuriy Chumak (a.k.a uri)"
   },
-  "icon": "images/lisp.png",
+  "icon": "images/ol.png",
   "categories": ["Programming Languages"],
-  "license": "MIT",
-  "private": true,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/yuriy-chumak/vscode-ol"
-  },
+
+  "private": false,
   "dependencies": {},
   "devDependencies": {
     "typescript": "^1.6.2",
@@ -28,16 +28,16 @@
       "id": "ol (scheme)",
       "aliases": ["Lisp", "lisp", "Scheme", "scheme", "ol"],
       "extensions": [".lisp", ".lsp", ".ol", ".scm"],
-      "configuration": "./Lisp.configuration.json"
+      "configuration": "./ol.configuration.json"
     }],
     "grammars": [{
       "language": "ol (scheme)",
       "scopeName": "source.lisp",
-      "path": "./syntaxes/Lisp.tmLanguage"
+      "path": "./syntaxes/ol.tmLanguage"
     }]
   },
   "readmeFilename": "README.md",
   "bugs": {
-    "url": "https://github.com/yuriy-chumak/vscode-ol/issues"
+    "url": "https://github.com/yuriy-chumak/vscode-ol-syntax/issues"
   }
 }

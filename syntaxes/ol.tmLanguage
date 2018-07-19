@@ -6,9 +6,10 @@
 	<string></string>
 	<key>fileTypes</key>
 	<array>
-		<string>lisp</string>
-		<string>scm</string>
 		<string>ol</string>
+		<string>scm</string>
+		<string>lisp</string>
+        <string>lsp</string>
 	</array>
 	<key>foldingStartMarker</key>
 	<string>\(</string>
