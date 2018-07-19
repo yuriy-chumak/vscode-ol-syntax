@@ -2,7 +2,7 @@
   "name": "vscode-ol-syntax",
   "displayName": "Ol (Scheme) Syntax Highlight",
   "description": "Otus Lisp (Scheme, Lisp) VSCode Syntax Highlight",
-  "version": "0.1.39",
+  "version": "0.1.40",
   "publisher": "yuriy-chumak",
 
   "repository": "https://github.com/yuriy-chumak/vscode-ol-syntax",
