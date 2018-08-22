@@ -6,7 +6,6 @@
     "brackets": [
         ["(", ")"],
         ["[", "]"]
- 
     ],
     "autoClosingPairs": [
         ["[", "]"],
