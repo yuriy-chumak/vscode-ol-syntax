@@ -1,5 +1,7 @@
 # Otus Lisp (Ol, Scheme, Lisp) syntax for vscode
 
+Designed for [Otus Lisp](https://github.com/yuriy-chumak/ol/), functional dialect of Scheme. Useful for any Scheme.
+
 ![intro](https://yuriy-chumak.github.io/images/vscode-ol-syntax.screenshot2.jpg)
 
 Source codes available at https://github.com/yuriy-chumak/vscode-ol-syntax

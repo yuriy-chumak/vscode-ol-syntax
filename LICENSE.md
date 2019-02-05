@@ -1,7 +1,7 @@
            DO WHAT THE F--K YOU WANT TO PUBLIC LICENSE
                    Version 2, December 2004
  
-Copyright (C) 2018 Yuriy Chumak
+Copyright (C) 2018,2019 Yuriy Chumak
 
 Everyone is permitted to copy and distribute verbatim or modified
 copies of this license document, and changing it is allowed as long

@@ -72,7 +72,7 @@
         <!-- constants (+) -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|[) ])(#(false|f|F|true|t|T|null|empty|e|eof))(?=[() ]|$)</string>
+			<string>(?:^|[) ])(#(false|f|F|true|t|T|null|empty|e|eof|0|\(\))|'\(\))(?=[() ]|$)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
