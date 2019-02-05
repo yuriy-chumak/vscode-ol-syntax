@@ -1,0 +1,5 @@
+# local npm files
+# howto: curl -L https://www.npmjs.com/install.sh | npm_config_prefix=`pwd` sh
+bin/
+lib/
+share/
