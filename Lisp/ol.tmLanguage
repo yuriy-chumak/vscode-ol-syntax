@@ -58,7 +58,21 @@
         <!-- keywords (+) -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|[() ])(quote|values|lambda|setq|letq|ifeq|either|values-apply|define-syntax|syntax-rules|import|export)(?=[() ]|$)</string>
+			<string>(?:^|\s|[#()\]\[{}])(quote|values|lambda|setq|letq|ifeq|either|values-apply|apply|apply/cc|call-with-current-continuation|call/cc|let\*/cc)(?=\s|[#()\]\[{}]|$)</string>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.control.scheme.ol</string>
+				</dict>
+			</dict>
+		</dict>
+
+        <!-- macro/libraries-->
+		<dict>
+			<key>match</key>
+			<string>(?:^|\s|[#()\]\[{}])(define-syntax|syntax-rules|define-library|import|export|cond-expand)(?=\s|[#()\]\[{}]|$)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
@@ -72,7 +86,7 @@
         <!-- constants (+) -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|[) ])(#(false|f|F|true|t|T|null|empty|e|eof|0|\(\))|'\(\))(?=[() ]|$)</string>
+			<string>(?:^|\s|[#()\]\[{}])(#(false|f|F|true|t|T|null|empty|e|eof|0|\(\))|'\(\))(?=\s|[#()\]\[{}]|$)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
@@ -84,7 +98,7 @@
 		</dict>
 		<dict> <!-- symbols -->
 			<key>match</key>
-			<string>(?:^|[) ])('([0-9A-Za-z!$%&*+-/:<=>?^_~][0-9A-Za-z!@$%&*+-/:<=>?^_~]*)|(\|.*\|))(?=[() ]|$)</string>
+			<string>(?:^|\s|[#()\]\[{}])(('|`)(([^\s\[\](){}#@|`,.][^\s\[\](){}#|`,.]*)|(\|.*\|)))</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
@@ -96,7 +110,7 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>(?:^|[) ])(#\\(.|null|alarm|backspace|tab|newline|return|escape|space|delete))(?=[() ]|$)</string>
+			<string>(?:^|\s|[#()\]\[{}])(#\\(.|null|alarm|backspace|tab|newline|return|escape|space|delete))(?=\s|[#()\]\[{}]|$)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
@@ -108,7 +122,7 @@
 		</dict>
 		<dict> <!-- numbers. todo: add complex and rational numbers -->
 			<key>match</key>
-			<string>(?:^|[) ])(([0-9]+)|(#((b[01]+)|(o[0-7]+)|(d[0-9]+)|(x[0-9a-fA-F]+)))|\+nan\.0|\+inf\.0|\-inf\.0)(?=[() ]|$)</string>
+			<string>(?:^|\s|[#()\]\[{}])(([0-9]+)|(#((b[01]+)|(o[0-7]+)|(d[0-9]+)|(x[0-9a-fA-F]+)))|\+nan\.0|\+inf\.0|\-inf\.0)(?=\s|[#()\]\[{}]|$)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
@@ -145,13 +159,13 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>(\[abtnre"|\\])</string>
+					<string>(\[abtnre0"|\\])</string>
 					<key>name</key>
 					<string>constant.character.escape.scheme.ol</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(\[^abtnre"|\\])</string>
+					<string>(\[^abtnre0"|\\])</string>
 					<key>name</key>
 					<string>invalid.illegal.escape.scheme.ol</string>
 				</dict>
@@ -162,7 +176,7 @@
 		<!-- special case: function defines -->
 		<dict>
 			<key>match</key>
-			<string>(?:\()(define)\s+\(([^\[\]`#(){}\|;'",. ]*)(?= |\)|$)</string>
+			<string>(?:\()(define)\s+\(([^\[\]`#(){}\|;'",. ]*)(?=\s|[#()\]\[{}]|$)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
@@ -181,7 +195,7 @@
         <!-- vm primitives -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|[() ])(apply/cc|call-with-current-continuation|call/cc|let\*/cc|syntax-error|runtime-error|assert|error|cons|car|cdr|ref|list|type|size|set-ref|set-ref!|clock|syscall|tuple-apply|ff-apply|put|get|fork-server|features)(?=[() ]|$)</string>
+			<string>(?:^|\s|[#()\]\[{}])(syntax-error|runtime-error|assert|error|cons|car|cdr|ref|list|type|size|set-ref|set-ref!|clock|syscall|vector-apply|ff-apply|put|get|features)(?=\s|[#()\]\[{}]|$)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
@@ -195,7 +209,7 @@
         <!-- builtin predicates -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|[() ])((eq|eqv|equal|less|feq|fless|null|empty|eof|value|reference|zero|integer|rational|complex|real|number|exact|inexact|boolean|pair|symbol|vector|port|procedure|bytecode|function|ff|symbol=|list|bytevector)\?)(?=[() ]|$)</string>
+			<string>(?:^|\s|[#()\]\[{}])((eq|eqv|equal|less|feq|fless|null|empty|eof|value|reference|zero|integer|rational|complex|real|number|exact|inexact|boolean|pair|symbol|vector|port|procedure|bytecode|function|ff|symbol=|list|bytevector|string)\?)(?=\s|[#()\]\[{}]|$)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
@@ -209,7 +223,7 @@
         <!-- basic r7rs functions -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|[() ])(λ|apply|begin|letrec|let|let\*|if|unless|cond|case|and|or|not|delay|force|quasiquote|define|length|append|reverse|ilist|tuple|tuple-case|call-with-values|define-library|define-values|list-ref|map|exec|yield|halt|wait|set|set!|set-car!|set-cdr!|else)(?=[() ]|$)</string>
+			<string>(?:^|\s|[#()\]\[{}])(λ|begin|letrec|let|let\*|if|unless|cond|case|and|or|not|delay|force|quasiquote|define|length|append|reverse|ilist|call-with-values|define-values|list-ref|map|exec|yield|halt|wait|set|set!|set-car!|set-cdr!|else)(?=\s|[#()\]\[{}]|$)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
@@ -223,7 +237,7 @@
         <!-- other r7rs functions -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|[() ])(inexact|exact|exact->inexact|inexact->exact|list-tail|list-set!|memq|memv|member|list-copy|bytevector|make-bytevector)(?=[() ]|$)</string>
+			<string>(?:^|\s|[#()\]\[{}])(inexact|exact|exact->inexact|inexact->exact|list-tail|list-set!|memq|memv|member|list-copy|bytevector|make-bytevector)(?=\s|[#()\]\[{}]|$)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
@@ -238,7 +252,20 @@
         <!-- (owl strings) /incomplete -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|[() ])(runes->string|bytes->string|string->bytes|string->runes|list->string|string->list|string-length|string-eq\?|string-append|c-string|null-terminate|finish-string|render-string|render-quoted-string|symbol->string|string->symbol)(?=[() ]|$)</string>
+			<string>(?:^|\s|[#()\]\[{}])(runes->string|bytes->string|string->bytes|string->runes|list->string|string->list|string-length|string-eq\?|string-append|c-string|null-terminate|finish-string|render-string|render-quoted-string|symbol->string|string->symbol)(?=\s|[#()\]\[{}]|$)</string>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.ol.owl.strings</string>
+				</dict>
+			</dict>
+        </dict>
+        <!-- (scheme vector) /incomplete -->
+		<dict>
+			<key>match</key>
+			<string>(?:^|\s|[#()\]\[{}])(make-vector|vector|vector-length|vector-ref|vector-set!|vector->list|list->vector|vector->string|string->vector|vector-copy|vector-copy!|vector-append|vector-fill!)(?=\s|[#()\]\[{}]|$)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
@@ -251,7 +278,7 @@
         <!-- (owl io) -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|[() ])(fopen|fclose|sleep|open-output-file|open-input-file|flush-port|close-port|wait-write|blocks->port|closing-blocks->port|file->vector|file->list|vector->file|write-vector|port->byte-stream|stdin|stdout"stderr"display-to|print-to|display|print|print\*|print\*-to|write|writer-to|write-to|write-bytes|write-byte-vector|get-block|try-get-block|lines|system-print|fasl-save|fasl-load)(?=[() ]|$)</string>
+			<string>(?:^|\s|[#()\]\[{}])(sleep|open-output-file|open-input-file|flush-port|close-port|wait-write|blocks->port|closing-blocks->port|file->vector|file->list|vector->file|write-vector|port->byte-stream|stdin|stdout"stderr"display-to|print-to|display|print|print\*|print\*-to|write|writer-to|write-to|write-bytes|write-byte-vector|get-block|try-get-block|lines|system-print|fasl-save|fasl-load)(?=\s|[#()\]\[{}]|$)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
@@ -264,7 +291,7 @@
         <!-- (owl list) -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|[() ])(null|caar|cadr|cdar|cddr|caaar|caadr|cadar|caddr|cdaar|cdadr|cddar|cdddr|zip|for|fold|foldr|for-each|has\?|getq|last|drop-while|mem|fold-map|foldr-map|append|reverse|keep|remove|all|some|smap|unfold|take-while|fold2|first|halve|caaaar|caaadr|caadar|caaddr|cadaar|cadadr|caddar|cadddr|cdaaar|cdaadr|cdadar|cdaddr|cddaar|cddadr|cdddar|cddddr)(?=[() ]|$)</string>
+			<string>(?:^|\s|[#()\]\[{}])(null|caar|cadr|cdar|cddr|caaar|caadr|cadar|caddr|cdaar|cdadr|cddar|cdddr|zip|for|fold|foldr|for-each|has\?|getq|last|drop-while|mem|fold-map|foldr-map|append|reverse|keep|remove|all|some|smap|unfold|take-while|fold2|first|halve|caaaar|caaadr|caadar|caaddr|cadaar|cadadr|caddar|cadddr|cdaaar|cdaadr|cdadar|cdaddr|cddaar|cddadr|cdddar|cddddr)(?=\s|[#()\]\[{}]|$)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
@@ -277,7 +304,7 @@
         <!-- (owl interop) -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|[() ])(interact|fork|accept-mail|wait-mail|check-mail|release-thread|catch-thread|set-signal-action|single-thread\?|kill|mail|fork-linked-server|fork-server|return-mails|fork-server|fork-linked|fork-named|exit-thread|shutdown|poll-mail-from|running-threads|par\*|start-nested-parallel-computation|wrap-the-whole-world-to-a-thunk|par|por\*|por|interop)(?=[() ]|$)</string>
+			<string>(?:^|\s|[#()\]\[{}])(interact|fork|accept-mail|wait-mail|check-mail|release-thread|catch-thread|set-signal-action|single-thread\?|kill|mail|fork-linked-server|fork-server|return-mails|fork-linked|fork-named|exit-thread|shutdown|poll-mail-from|running-threads|par\*|start-nested-parallel-computation|wrap-the-whole-world-to-a-thunk|par|por\*|por|interop)(?=\s|[#()\]\[{}]|$)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
