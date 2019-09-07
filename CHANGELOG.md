@@ -1,3 +1,4 @@
+* 0.1.54: added snippets (if, unless, map, fold, for-each), package cleanup
 * 0.1.53: added (scheme vectors), cleanup
 * 0.1.52: proper [] and {} handling, removed deprecated "tuple"s
 * 0.1.51: unicode in symbols

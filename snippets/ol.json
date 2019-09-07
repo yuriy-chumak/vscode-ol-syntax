@@ -1,0 +1,77 @@
+{
+    "(if ? then)": {
+        "prefix": "if",
+        "body": [
+            "(if ${1:?}",
+            "\t${2:then})"],
+        "description": "small if statement"
+    },
+    "(if ? then else)": {
+        "prefix": "if",
+        "body": [
+            "(if ${1:?}",
+            "\t${2:then}",
+            "\t${3:else})"],
+        "description": "full if statement"
+    },
+
+    "(unless ? then)": {
+        "prefix": "unless",
+        "body": [
+            "(unless ${1:?}",
+            "\t${2:then})"],
+        "description": "small unless statement"
+    },
+    "(unless ? then else)": {
+        "prefix": "unless",
+        "body": [
+            "(unless ${1:?}",
+            "\t${2:then}",
+            "\t${3:else})"],
+        "description": "full unless statement"
+    },
+
+    "(for-each (lambda (..) ..) list)": {
+        "prefix": "for-each",
+        "body": [
+            "(for-each (lambda (${1:?})",
+            "\t\t${2:#f})",
+            "\t${3:list})"],
+        "description": "for-each statement"
+    },
+
+    "(map (lambda (..) ..) list)": {
+        "prefix": "map",
+        "body": [
+            "(map (lambda (${1:?})",
+            "\t\t${2:#f})",
+            "\t${3:list})"],
+        "description": "map 1 statement"
+    },
+    "(map (lambda (..) ..) list1 list2)": {
+        "prefix": "map",
+        "body": [
+            "(map (lambda (${1:?} ${2:?})",
+            "\t\t${3:#f})",
+            "\t${4:list1} ${5:list2})"],
+        "description": "map 2 statement"
+    },
+
+    "(fold (lambda (..) ..) list)": {
+        "prefix": "fold",
+        "body": [
+            "(fold (lambda (${1:union} ${2:item})",
+            "\t\t${3:union})",
+            "\t${4:union} ${5:list})"],
+        "description": "fold 1 statement"
+    },
+    "(fold (lambda (..) ..) list1 list2)": {
+        "prefix": "fold",
+        "body": [
+            "(fold (lambda (${1:union} ${2:item1} #{3:item2})",
+            "\t\t${4:union})",
+            "\t${5:union} ${6:list1} ${7:list2})"],
+        "description": "fold 2 statement"
+    }
+
+}

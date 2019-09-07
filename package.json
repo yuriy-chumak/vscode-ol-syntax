@@ -2,7 +2,7 @@
   "name": "vscode-ol-syntax",
   "displayName": "Ol (Scheme) Syntax Highlight",
   "description": "Otus Lisp (Scheme, r5rs, r7rs, Clojure, Racket, Lisp) VSCode Syntax Highlight",
-  "version": "0.1.53",
+  "version": "0.1.54",
   "publisher": "yuriy-chumak",
 
   "repository": "https://github.com/yuriy-chumak/vscode-ol-syntax",
@@ -12,7 +12,7 @@
     "name": "Yuriy Chumak (a.k.a uri)"
   },
   "icon": "images/ol.png",
-  "categories": ["Programming Languages"],
+  "categories": ["Programming Languages", "Snippets"],
 
   "private": false,
   "dependencies": {},
@@ -33,7 +33,11 @@
     "grammars": [{
       "language": "ol (scheme)",
       "scopeName": "source.lisp",
-      "path": "./Lisp/ol.tmLanguage"
+      "path": "./grammars/ol.tmLanguage"
+    }],
+    "snippets": [{
+      "language": "ol (scheme)",
+      "path": "./snippets/ol.json"
     }]
   },
   "readmeFilename": "README.md",
