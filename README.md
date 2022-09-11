@@ -4,7 +4,7 @@ Designed for [Otus Lisp](https://github.com/yuriy-chumak/ol/), functional dialec
 
 ![intro](https://yuriy-chumak.github.io/images/vscode-ol-syntax.screenshot2.jpg)
 
-Source codes available at https://github.com/yuriy-chumak/vscode-ol-syntax
+Source code available at https://github.com/yuriy-chumak/vscode-ol-syntax
 
 
 ## License

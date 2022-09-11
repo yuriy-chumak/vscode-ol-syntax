@@ -1,21 +1,23 @@
 {
   "name": "vscode-ol-syntax",
-  "displayName": "Ol (Scheme) Syntax Highlight",
-  "description": "Otus Lisp (Scheme, r5rs, r7rs, Clojure, Racket, Lisp) VSCode Syntax Highlight",
-  "version": "0.1.54",
+  "displayName": "Ol (Scheme, Lisp) Syntax Highlight",
+  "description": "Otus Lisp (Scheme, R7RS, Lisp, Clojure, Racket) VSCode Syntax Highlight",
+  "version": "0.1.66",
   "publisher": "yuriy-chumak",
-
   "repository": "https://github.com/yuriy-chumak/vscode-ol-syntax",
   "license": "WTFPL",
-
   "author": {
     "name": "Yuriy Chumak (a.k.a uri)"
   },
   "icon": "images/ol.png",
-  "categories": ["Programming Languages", "Snippets"],
-
+  "categories": [
+    "Programming Languages",
+    "Snippets"
+  ],
   "private": false,
-  "dependencies": {},
+  "dependencies": {
+    "vsce": "^1.77.0"
+  },
   "devDependencies": {
     "typescript": "^1.6.2",
     "vscode": "0.10.x"
@@ -24,21 +26,36 @@
     "vscode": "^0.10.10"
   },
   "contributes": {
-    "languages": [{
-      "id": "ol (scheme)",
-      "aliases": ["Lisp", "lisp", "Scheme", "scheme", "Ol", "ol"],
-      "extensions": [".lisp", ".lsp", ".ol", ".scm"],
-      "configuration": "./ol.configuration.json"
-    }],
-    "grammars": [{
-      "language": "ol (scheme)",
-      "scopeName": "source.lisp",
-      "path": "./grammars/ol.tmLanguage"
-    }],
-    "snippets": [{
-      "language": "ol (scheme)",
-      "path": "./snippets/ol.json"
-    }]
+    "languages": [
+      {
+        "id": "ol (scheme)",
+        "aliases": [
+          "Lisp", "lisp",
+          "Scheme", "scheme",
+          "Ol", "ol"
+        ],
+        "extensions": [
+          ".lisp",
+          ".lsp",
+          ".ol",
+          ".scm"
+        ],
+        "configuration": "./ol.configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "ol (scheme)",
+        "scopeName": "source.lisp",
+        "path": "./grammars/ol.tmLanguage"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "ol (scheme)",
+        "path": "./snippets/ol.json"
+      }
+    ]
   },
   "readmeFilename": "README.md",
   "bugs": {
