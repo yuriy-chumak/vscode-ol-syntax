@@ -1,3 +1,4 @@
+* 0.1.67: list moved, symbols include "@"
 * 0.1.66: greater?, cleanup, small colors naming refactoring
 * 0.1.65: ol vm functions (vm:cast, vm:new, etc.)
 * 0.1.64: fix for symbols

@@ -105,7 +105,7 @@
 		<!-- symbols (+) -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|\s|[#()\]\[{}])(('\s*|`\s*)(([^\s\[\](){}#@|`,.][^\s\[\](){}#|`,.]*)|(\|(.|\s)*\|)))</string>
+			<string>(?:^|\s|[#()\]\[{}])(('\s*|`\s*)(([^\s\[\](){}#|`,.][^\s\[\](){}#|`,.]*)|(\|(.|\s)*\|)))</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
@@ -236,7 +236,7 @@
         <!-- basic r7rs functions -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|\s|[#()\]\[{}])(λ|lambda|quote|values|apply|apply/cc|call-with-current-continuation|call/cc|cons|car|cdr|ref|list|type|size|set-ref|set-ref!|values-apply|vector-apply|ff-apply|ff:black|ff:red|ff:toggle|ff:red\?|ff:right\?)(?=\s|[#()\]\[{}]|$)</string>
+			<string>(?:^|\s|[#()\]\[{}])(λ|lambda|quote|values|apply|apply/cc|call-with-current-continuation|call/cc|cons|car|cdr|ref|type|size|set-ref|set-ref!|values-apply|vector-apply|ff-apply|ff:black|ff:red|ff:toggle|ff:red\?|ff:right\?)(?=\s|[#()\]\[{}]|$)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
@@ -264,7 +264,7 @@
         <!-- other r7rs functions -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|\s|[#()\]\[{}])(inexact|exact|exact->inexact|inexact->exact|list-tail|list-set!|memq|memv|member|list-copy|bytevector|make-bytevector)(?=\s|[#()\]\[{}]|$)</string>
+			<string>(?:^|\s|[#()\]\[{}])(inexact|exact|exact->inexact|inexact->exact|list-tail|list-set!|memq|memv|member|list-copy|bytevector|list|make-bytevector)(?=\s|[#()\]\[{}]|$)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
