@@ -1,4 +1,10 @@
-* 0.1.67: list moved, symbols include "@"
+* 1.0.1: better strings, string subpatterns,
+         multiline symbols, regular expressions,
+         speedup, cleanup
+
+* 0.1.69: more vector functions
+* 0.1.68: symbols include "@"
+* 0.1.67: list moved
 * 0.1.66: greater?, cleanup, small colors naming refactoring
 * 0.1.65: ol vm functions (vm:cast, vm:new, etc.)
 * 0.1.64: fix for symbols

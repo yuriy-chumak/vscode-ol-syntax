@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
+<!-- tips:
+	(?:) ia a "match expression, but do not capture it"
+	(?=) is a zero-width "positive lookahead assertion"
+	(?!) is a zero-width "negative lookahead assertion"
+	(?<=) is a zero-width "positive look behind assertion"
+	(?<!) is a zero-width "negative look behind assertion"
+	-->
 <dict>
 	<key>comment</key>
 	<string>https://macromates.com/manual/en/language_grammars#naming_conventions</string>
@@ -21,12 +28,12 @@
 	<string>Ol</string>
 	<key>patterns</key>
 	<array>
-		<!-- comments (+)-->
+		<!-- comments (+) -->
 		<dict>
 			<key>match</key>
-			<string>(;).*$\n?</string>
+			<string>(;).*$</string>
 			<key>name</key>
-			<string>comment.line.scheme</string>
+			<string>comment.line</string>
 
 			<key>captures</key>
 			<dict>
@@ -43,89 +50,134 @@
 			<key>end</key>
 			<string>\|#</string>
 			<key>name</key>
-			<string>comment.block.scheme</string>
+			<string>comment.block</string>
 		</dict>
 
 		<!-- keywords (+) -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|\s|[#()\]\[{}])(setq|let-eval|ifeq|brae)(?=\s|[#()\]\[{}]|$)</string>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.control.scheme.ol</string>
-				</dict>
-			</dict>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}|]) # word boundary
+				(setq|let-eval|ifeq|brae)
+				(?=[#\s()\]\[{}`,.]|$) # not a word chars
+			</string>
+			<key>name</key>
+			<string>keyword.control.ol</string>
 		</dict>
 
 		<!-- vm keywords (+) -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|\s|[#()\]\[{}])(vm:(new|make|alloc|cast|set!|add|mul|sub|div|shr|shl|and|ior|xor|fp1|fp2|version|features|vmax|vsize|pin|unpin|deref|exit))(?=\s|[#()\]\[{}]|$)</string>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.control.scheme.ol</string>
-				</dict>
-			</dict>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}|]) # word boundary
+				(vm:(
+					new|make|alloc|
+					cast|set!|
+					add|mul|sub|div|shr|shl|fp1|fp2|
+					and|ior|xor|
+					version|features|vmax|vsize|
+					pin|unpin|deref|
+					run|mcp|
+					exit)
+				|arity-error)
+				(?=[#\s()\]\[{}`,.]|$) # not a word chars
+			</string>
+			<key>name</key>
+			<string>keyword.control.ol</string>
 		</dict>
 
-        <!-- macro/libraries -->
+        <!-- macro/libraries (+) -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|\s|[#()\]\[{}])(define-syntax|syntax-rules|define-library|import|export|cond-expand|begin)(?=\s|[#()\]\[{}]|$)</string>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.control.scheme.ol</string>
-				</dict>
-			</dict>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}|]) # word boundary
+				(define-syntax|syntax-rules|define-library|import|export|cond-expand|begin|define-macro)
+				(?=[#\s()\]\[{}`,.]|$) # not a word chars
+			</string>
+			<key>name</key>
+			<string>keyword.control</string>
 		</dict>
 
         <!-- constants (+) -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|\s|[#()\]\[{}])(#(false|f|F|true|t|T|null|n|N|empty|e|E|eof|\(\))|'\(\))(?=\s|[#()\]\[{}]|$)</string>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>constant.language.scheme</string>
-				</dict>
-			</dict>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}|]) # word boundary
+				(\#(false|f|F|true|t|T|null|n|N|empty|e|E|eof|\(\))|'\(\))
+				(?=[#\s()\]\[{}`,.]|$) # not a word chars
+			</string>
+			<key>name</key>
+			<string>constant.language.ol</string>
 		</dict>
 
 		<!-- symbols (+) -->
-		<dict>
+		<dict> <!-- regular symbol-->
 			<key>match</key>
-			<string>(?:^|\s|[#()\]\[{}])(('\s*|`\s*)(([^\s\[\](){}#|`,.][^\s\[\](){}#|`,.]*)|(\|(.|\s)*\|)))</string>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>constant.language.scheme</string>
-				</dict>
-			</dict>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}]) # word boundary
+				('|`)\s*
+				([^\s()\[\]{}#|`,.]+) # not a non word chars
+			</string>
+			<key>name</key>
+			<string>entity.name.tag</string>
+		</dict>
+		<!-- Note: Regular expressions in TextMate grammars will not match across multiple lines.
+		     This is a fundamental limitation of the format.
+		     The only way to match content across multiple lines is to chain begin/end matches. -->
+		<dict> <!-- symbol enclosed in vertical lines -->
+			<key>begin</key>
+			<string>(?x)
+				(?:^|\s|[#()\]\[{}]) # word boundary
+				('|`)\s*\|
+			</string>
+			<key>end</key>
+			<string>\|</string>
+			<key>name</key>
+			<string>entity.name.tag</string>
+		</dict>
+
+		<!-- builtin regular expressions -->
+		<dict>
+			<!-- match m/.../ or split c/.../ -->
+			<key>begin</key>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}]) # word boundary
+				(m|c)/
+			</string>
+			<key>end</key>
+			<string>(?x)
+				/
+				(?=[#\s()\]\[{}|`,.]|$)
+			</string>
+			<key>name</key>
+			<string>keyword.other</string>
 		</dict>
 		<dict>
+			<!-- replace s/.../.../-->
+			<key>begin</key>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}]) # word boundary
+				s/
+			</string>
+			<key>end</key>
+			<string>(?x)
+				/g?
+				(?=[#\s()\]\[{}|`,.]|$)
+			</string>
+			<key>name</key>
+			<string>keyword.other</string>
+		</dict>
+
+		<!-- character constants (+) -->
+		<dict>
 			<key>match</key>
-			<string>(?:^|\s|[#()\]\[{}])(#\\(.|null|alarm|backspace|tab|newline|return|escape|space|delete))(?=\s|[#()\]\[{}]|$)</string>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>constant.character.escape.scheme</string>
-				</dict>
-			</dict>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}|]) # word boundary
+				(\#\\(.|null|alarm|backspace|tab|newline|return|escape|space|delete))
+				(?=[#\s()\]\[{}`,.]|$) # not a word chars
+			</string>
+			<key>name</key>
+			<string>constant.character.escape</string>
 		</dict>
 		
 		<!-- numbers. todo: add complex and rational numbers -->
@@ -142,48 +194,38 @@
 			</dict>
 		</dict>
 
-		<!-- strings -->
+		<!-- strings (+) -->
 		<dict>
 			<key>begin</key>
 			<string>"</string>
-			<key>beginCaptures</key>
-			<dict>
-				<key>0</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.string.begin</string>
-				</dict>
-			</dict>
 			<key>end</key>
 			<string>"</string>
-			<key>endCaptures</key>
-			<dict>
-				<key>0</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.string.end</string>
-				</dict>
-			</dict>
 			<key>name</key>
 			<string>string.quoted.double</string>
+
+			<!-- string subpatters -->
 			<key>patterns</key>
 			<array>
 				<dict>
 					<key>match</key>
-					<string>(\[abtnre0"|\\])</string>
+					<string>\\[abtnvfre0"\\]</string>
 					<key>name</key>
-					<string>constant.character.escape.scheme</string>
+					<string>constant.character.escape</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(\[^abtnre0"|\\])</string>
+					<string>\\x[0123456789abcdefABCDEF]+;</string>
 					<key>name</key>
-					<string>invalid.illegal.escape.scheme</string>
+					<string>constant.character.escape</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\\.</string>
+					<key>name</key>
+					<string>invalid.illegal.escape</string>
 				</dict>
 			</array>
 		</dict>
-
-		<!-- regexp TODO -->
 
         <!-- r7rs -->
 		<!-- special case: function defines -->
@@ -208,71 +250,61 @@
         <!-- vm primitives -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|\s|[#()\]\[{}])(syntax-error|runtime-error|assert|error|raise|raise-continuable|clock|syscall|\*features\*)(?=\s|[#()\]\[{}]|$)</string>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.control.scheme.ol</string>
-				</dict>
-			</dict>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}|]) # word boundary
+				(syntax-error|runtime-error|assert|error|raise|raise-continuable|clock|syscall|\*features\*)
+				(?=[#\s()\]\[{}`,.]|$) # not a word chars
+			</string>
+			<key>name</key>
+			<string>keyword.control.ol</string>
 		</dict>
 
         <!-- builtin predicates -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|\s|[#()\]\[{}])((eq|eqv|equal|less|greater|fless|has|null|empty|eof|value|reference|zero|integer|rational|complex|real|number|exact|inexact|boolean|pair|symbol|vector|port|procedure|bytecode|function|ff|symbol=|list|bytevector|string)\?)(?=\s|[#()\]\[{}]|$)</string>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.control.scheme.predicate</string>
-				</dict>
-			</dict>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}|]) # word boundary
+				((eq|eqv|equal|less|greater|fless|has|null|empty|eof|value|reference|zero|integer|rational|complex|real|number|exact|inexact|boolean|pair|symbol|vector|port|procedure|bytecode|function|ff|symbol=|list|bytevector|string)\?)
+				(?=[#\s()\]\[{}`,.]|$) # not a word chars
+			</string>
+			<key>name</key>
+			<string>keyword.control.predicate</string>
 		</dict>
 
         <!-- basic r7rs functions -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|\s|[#()\]\[{}])(λ|lambda|quote|values|apply|apply/cc|call-with-current-continuation|call/cc|cons|car|cdr|ref|type|size|set-ref|set-ref!|values-apply|vector-apply|ff-apply|ff:black|ff:red|ff:toggle|ff:red\?|ff:right\?)(?=\s|[#()\]\[{}]|$)</string>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.control.scheme</string>
-				</dict>
-			</dict>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}|]) # word boundary
+				(λ|lambda|quote|values|apply|apply/cc|call-with-current-continuation|call/cc|cons|car|cdr|ref|type|size|set-ref|set-ref!|values-apply|vector-apply|ff-apply|ff:black|ff:red|ff:toggle|ff:red\?|ff:right\?)
+				(?=[#\s()\]\[{}`,.]|$) # not a word chars
+			</string>
+			<key>name</key>
+			<string>keyword.control</string>
 		</dict>
 
         <!-- common r7rs functions -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|\s|[#()\]\[{}])(letrec|let|let\*|if|unless|when|cond|case|case-lambda|and|or|not|delay|force|quasiquote|define|length|append|reverse|ilist|call-with-values|define-values|list-ref|map|exec|yield|halt|wait|set|set!|set-car!|set-cdr!|put|get|then|else|let\*/cc)(?=\s|[#()\]\[{}]|$)</string>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.function.ol</string>
-				</dict>
-			</dict>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}|]) # word boundary
+				(letrec|let|let\*|if|unless|when|cond|case|case-lambda|and|or|not|delay|force|quasiquote|define|length|append|reverse|ilist|call-with-values|define-values|list-ref|map|exec|yield|halt|wait|set|set!|set-car!|set-cdr!|put|get|then|else|let\*/cc)
+				(?=[#\s()\]\[{}`,.]|$) # not a word chars
+			</string>
+			<key>name</key>
+			<string>entity.name.function</string>
 		</dict>
 
         <!-- other r7rs functions -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|\s|[#()\]\[{}])(inexact|exact|exact->inexact|inexact->exact|list-tail|list-set!|memq|memv|member|list-copy|bytevector|list|make-bytevector)(?=\s|[#()\]\[{}]|$)</string>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.function.ol</string>
-				</dict>
-			</dict>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}|]) # word boundary
+				(inexact|exact|exact->inexact|inexact->exact|list-tail|list-set!|memq|memv|member|list-copy|bytevector|list|make-bytevector)
+				(?=[#\s()\]\[{}`,.]|$) # not a word chars
+			</string>
+			<key>name</key>
+			<string>entity.name.function</string>
 		</dict>
 
         <!-- libraries -->
@@ -292,7 +324,7 @@
         <!-- (scheme vector) /incomplete -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|\s|[#()\]\[{}])(make-vector|vector|vector-length|vector-ref|vector-set!|vector->list|list->vector|vector->string|string->vector|vector-copy|vector-copy!|vector-append|vector-fill!)(?=\s|[#()\]\[{}]|$)</string>
+			<string>(?:^|\s|[#()\]\[{}])(make-vector|vector|vector-length|vector-ref|vector-set!|vector->list|list->vector|vector->string|string->vector|vector-copy|vector-copy!|vector-append|vector-fill!|vector-for-each|vector-map|vector-fold|vector-foldr)(?=\s|[#()\]\[{}]|$)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
@@ -305,7 +337,7 @@
         <!-- (owl io) -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|\s|[#()\]\[{}])(open-output-file|open-binary-output-file|open-input-file|open-binary-input-file|flush-port|close-port|wait-write|blocks->port|closing-blocks->port|fd->bytevector|file->bytevector|bytevector->file|file->blob|write-blob|file->vector|file->list|vector->file|write-vector|port->bytestream|file->bytestream|stdin|stdout|stderr|display-to|print-to|display|print|print\*|print\*-to|write|writer-to|write-to|write-bytes|write-bytevector|get-block|try-get-block|lines|system-print|system-println|system-stderr|fasl-save|fasl-load)(?=\s|[#()\]\[{}]|$)</string>
+			<string>(?:^|\s|[#()\]\[{}])(open-output-file|open-binary-output-file|open-input-file|open-binary-input-file|flush-port|close-port|wait-write|blocks->port|closing-blocks->port|fd->bytevector|file->bytevector|bytevector->file|file->blob|write-blob|file->vector|file->list|vector->file|write-vector|port->bytestream|file->bytestream|stdin|stdout|stderr|display-to|print-to|display|print|print\*|print\*-to|write|writer-to|write-to|write-bytes|write-bytevector|newline|get-block|try-get-block|lines|system-print|system-println|system-stderr|fasl-save|fasl-load)(?=\s|[#()\]\[{}]|$)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
@@ -342,70 +374,8 @@
 			</dict>
         </dict>
 
-		<!-- <dict>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.function-type.lisp</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.type.lisp</string>
-				</dict>
-			</dict>
-			<key>match</key>
-			<string>(?:\()((?i:deftype|defstruct|define-condition|defpackage|defclass))\s+((?:\w|[+\-<>/*&amp;=.?!$%:@\[\]^{}~#|])+)</string>
-		</dict> -->
-
-		<!-- <dict>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.function-type.lisp</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.variable.lisp</string>
-				</dict>
-			</dict>
-			<key>match</key>
-			<string>(?:\()((?i:defvar|defconstant|defparameter|define-symbol-macro))\s+((?:\w|[+\-<>/*&amp;=.?!$%:@\[\]^{}~#|])+)</string>
-		</dict> -->
-
-		<!-- <dict>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.variable.lisp</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.variable.lisp</string>
-				</dict>
-			</dict>
-			<key>match</key>
-			<string>(?<=^|\s|[()])(\*)(\S*)(\*)(?=$|\s|[()])</string>
-			<key>name</key>
-			<string>variable.other.global.lisp</string>
-		</dict>
-
-		<dict>
-			<key>match</key>
-			<string>(?<=^|\s|[()]):(\w|[+\-<>/*&amp;=.?!$%:@\[\]^{}~#|])*</string>
-			<key>name</key>
-			<string>keyword.constant.lisp</string>
-		</dict> -->
-
 	</array>
+
 	<key>scopeName</key>
 	<string>source.lisp</string>
 	<key>uuid</key>
