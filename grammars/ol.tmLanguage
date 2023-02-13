@@ -138,31 +138,22 @@
 
 		<!-- builtin regular expressions -->
 		<dict>
-			<!-- match m/.../ or split c/.../ -->
-			<key>begin</key>
-			<string>(?x)
-				(?<=^|\s|[#()\]\[{}]) # word boundary
-				(m|c)/
-			</string>
-			<key>end</key>
-			<string>(?x)
-				/
-				(?=[#\s()\]\[{}|`,.]|$)
-			</string>
-			<key>name</key>
-			<string>keyword.other</string>
-		</dict>
-		<dict>
 			<!-- replace s/.../.../-->
-			<key>begin</key>
+			<key>match</key>
 			<string>(?x)
-				(?<=^|\s|[#()\]\[{}]) # word boundary
-				s/
-			</string>
-			<key>end</key>
-			<string>(?x)
-				/g?
-				(?=[#\s()\]\[{}|`,.]|$)
+				(?<=^|\s|[#()\]\[{}|]) # word boundary
+				(
+					(m|c)/
+					((\\/)|[^/])+
+					/
+				)|(
+					s/
+					((\\/)|[^/])+
+					/
+					((\\/)|[^/])*
+					/g?
+				)
+				(?=[#\s()\]\[{}`,.]|$) # not a word char
 			</string>
 			<key>name</key>
 			<string>keyword.other</string>

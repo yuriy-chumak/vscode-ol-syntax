@@ -15,20 +15,12 @@
         "description": "full if statement"
     },
 
-    "(unless ? then)": {
+    "(unless ? )": {
         "prefix": "unless",
         "body": [
             "(unless ${1:?}",
-            "\t${2:then})"],
+            "\t)"],
         "description": "small unless statement"
-    },
-    "(unless ? then else)": {
-        "prefix": "unless",
-        "body": [
-            "(unless ${1:?}",
-            "\t${2:then}",
-            "\t${3:else})"],
-        "description": "full unless statement"
     },
 
     "(for-each (lambda (..) ..) list)": {
