@@ -56,7 +56,7 @@
 		<!-- keywords (+) -->
 		<dict>
 			<key>match</key>
-			<string>(?x)
+			<string>(?x) # multiline regexp
 				(?<=^|\s|[#()\]\[{}|]) # word boundary
 				(setq|let-eval|ifeq|brae)
 				(?=[#\s()\]\[{}`,.]|$) # not a word chars
@@ -146,6 +146,11 @@
 					(m|c)/
 					((\\/)|[^/])+
 					/
+				)|(
+					g/
+					((\\/)|[^/])+
+					/
+					/g?
 				)|(
 					s/
 					((\\/)|[^/])+
