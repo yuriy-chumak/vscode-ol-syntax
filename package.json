@@ -2,7 +2,7 @@
   "name": "vscode-ol-syntax",
   "displayName": "Ol (Scheme, Lisp) Syntax Highlight",
   "description": "Otus Lisp (Scheme, R7RS, Lisp, Clojure, Racket) VSCode Syntax Highlight",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "publisher": "yuriy-chumak",
   "repository": "https://github.com/yuriy-chumak/vscode-ol-syntax",
   "license": "WTFPL",
@@ -48,6 +48,9 @@
         "language": "ol (scheme)",
         "scopeName": "source.lisp",
         "path": "./grammars/ol.tmLanguage",
+        "embeddedLanguages": {
+          "meta.embedded.block.glsl": "glsl"
+        }
       }
     ],
     "snippets": [

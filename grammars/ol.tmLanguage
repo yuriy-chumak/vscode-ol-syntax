@@ -149,7 +149,6 @@
 				)|(
 					g/
 					((\\/)|[^/])+
-					/
 					/g?
 				)|(
 					s/
@@ -192,17 +191,10 @@
 
 		<!-- strings (+) -->
 		<dict>
-			<key>begin</key>
-			<string>"</string>
-			<key>end</key>
-			<string>"</string>
-			<key>name</key>
-			<string>string.quoted.double</string>
-
 			<!-- string subpatters -->
 			<key>patterns</key>
 			<array>
-				<dict>
+				<dict> <!-- ESC sequences -->
 					<key>match</key>
 					<string>\\[abtnvfre0"\\]</string>
 					<key>name</key>
@@ -333,7 +325,7 @@
         <!-- (owl io) -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|\s|[#()\]\[{}])(open-output-file|open-binary-output-file|open-input-file|open-binary-input-file|flush-port|close-port|wait-write|blocks->port|closing-blocks->port|fd->bytevector|file->bytevector|bytevector->file|file->blob|write-blob|file->vector|file->list|vector->file|write-vector|port->bytestream|file->bytestream|stdin|stdout|stderr|display-to|print-to|display|print|print\*|print\*-to|write|writer-to|write-to|write-bytes|write-bytevector|newline|get-block|try-get-block|lines|system-print|system-println|system-stderr|fasl-save|fasl-load)(?=\s|[#()\]\[{}]|$)</string>
+			<string>(?:^|\s|[#()\]\[{}])(open-output-file|open-binary-output-file|open-input-file|open-binary-input-file|flush-port|close-port|wait-write|blocks->port|closing-blocks->port|fd->bytevector|file->bytevector|bytevector->file|file->blob|write-blob|file->vector|file->list|vector->file|write-vector|port->bytestream|file->bytestream|bytestream->port|bytestream->file|port->string|file->string|write-bytestream|write-simple|open-input-string|open-output-string|get-output-string|stdin|stdout|stderr|display-to|print-to|display|print|print\*|print\*-to|write|writer-to|write-to|write-bytes|write-bytevector|newline|get-block|try-get-block|lines|system-print|system-println|system-stderr|fasl-save|fasl-load)(?=\s|[#()\]\[{}]|$)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>

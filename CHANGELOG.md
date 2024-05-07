@@ -1,3 +1,4 @@
+* 1.0.3: more i/o functions
 * 1.0.2: regex syntax highlight updated
 * 1.0.1: better strings, string subpatterns,
          multiline symbols, regular expressions,
