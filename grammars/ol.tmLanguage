@@ -8,6 +8,8 @@
 	(?<=) is a zero-width "positive look behind assertion"
 	(?<!) is a zero-width "negative look behind assertion"
 	-->
+<!-- tmLanguage schema:
+	https://github.com/martinring/tmlanguage/blob/master/tmlanguage.json -->
 <dict>
 	<key>comment</key>
 	<string>https://macromates.com/manual/en/language_grammars#naming_conventions</string>
@@ -30,46 +32,49 @@
 	<array>
 		<!-- comments (+) -->
 		<dict>
-			<key>match</key>
-			<string>(;).*$</string>
 			<key>name</key>
 			<string>comment.line</string>
-
+			<key>match</key>
+			<string>(;).*$</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>punctuation.definition.comment</string>
+					<string>comment</string>
 				</dict>
 			</dict>
 		</dict>
 		<dict>
+			<key>name</key>
+			<string>comment.block</string>
 			<key>begin</key>
 			<string>#\|</string>
 			<key>end</key>
 			<string>\|#</string>
-			<key>name</key>
-			<string>comment.block</string>
 		</dict>
 
-		<!-- keywords (+) -->
+		<!-- olvm keywords (template) (+) -->
 		<dict>
+			<key>name</key>
+			<string>keyword.control.olvm</string>
+
 			<key>match</key>
-			<string>(?x) # multiline regexp
-				(?<=^|\s|[#()\]\[{}|]) # word boundary
+			<string>(?x)               # multiline regex
+				(?<=^|\s|[#()\]\[{}|]) # lisp word boundary
 				(setq|let-eval|ifeq|brae)
 				(?=[#\s()\]\[{}`,.]|$) # not a word chars
 			</string>
-			<key>name</key>
-			<string>keyword.control.ol</string>
 		</dict>
 
-		<!-- vm keywords (+) -->
+		<!-- olvm keywords (+) -->
 		<dict>
+			<key>name</key>
+			<string>keyword.control.olvm</string>
+
 			<key>match</key>
 			<string>(?x)
-				(?<=^|\s|[#()\]\[{}|]) # word boundary
+				(?<=^|\s|[#()\]\[{}|])
 				(vm:(
 					new|make|alloc|
 					cast|set!|
@@ -77,105 +82,161 @@
 					and|ior|xor|
 					version|features|vmax|vsize|
 					pin|unpin|deref|
-					run|mcp|
-					exit)
-				|arity-error)
-				(?=[#\s()\]\[{}`,.]|$) # not a word chars
+					run|mcp|nop|exit)
+				|arity-error
+				|ff:(black|red|toggle|red\?|right\?)
+				)
+				(?=[#\s()\]\[{}`,.]|$)
 			</string>
+		</dict>
+
+        <!-- ol primitives (+) -->
+		<dict>
 			<key>name</key>
 			<string>keyword.control.ol</string>
+
+			<key>match</key>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}|])
+				(syntax-error|runtime-error|assert|error|raise|raise-continuable|clock|syscall|\*features\*)
+				(?=[#\s()\]\[{}`,.]|$)
+			</string>
 		</dict>
 
         <!-- macro/libraries (+) -->
 		<dict>
-			<key>match</key>
-			<string>(?x)
-				(?<=^|\s|[#()\]\[{}|]) # word boundary
-				(define-syntax|syntax-rules|define-library|import|export|cond-expand|begin|define-macro)
-				(?=[#\s()\]\[{}`,.]|$) # not a word chars
-			</string>
 			<key>name</key>
 			<string>keyword.control</string>
-		</dict>
 
-        <!-- constants (+) -->
-		<dict>
 			<key>match</key>
 			<string>(?x)
-				(?<=^|\s|[#()\]\[{}|]) # word boundary
-				(\#(false|f|F|true|t|T|null|n|N|empty|e|E|eof|\(\))|'\(\))
-				(?=[#\s()\]\[{}`,.]|$) # not a word chars
+				(?<=^|\s|[#()\]\[{}|])
+				(begin|define-syntax|syntax-rules|define-library|import|export|exports|cond-expand|define-macro)
+				(?=[#\s()\]\[{}`,.]|$)
 			</string>
+		</dict>
+
+		<!-- not implemented r7rs top-level features -->
+		<dict>
 			<key>name</key>
-			<string>constant.language.ol</string>
+			<string>invalid</string>
+
+			<key>match</key>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}|])
+				(include|include-ci|define-record-type)
+				(?=[#\s()\]\[{}`,.]|$)
+			</string>
+		</dict>
+
+        <!-- vm constants (+) -->
+		<dict>
+			<key>name</key>
+			<string>constant.language</string>
+
+			<key>match</key>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}|])
+				(
+					\#(false|f|F|true|t|T|null|n|N|empty|e|E|eof|\(\))|
+					'\(\)|
+					\#ff\(\)     # because #ff() === #empty
+				)
+				(?=[#\s()\]\[{}`,.]|$)
+			</string>
+		</dict>
+
+		<!-- ol constants (+) -->
+		<dict>
+			<key>name</key>
+			<string>constant.character.escape</string>
+
+			<key>match</key>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}|])
+				(\#\\(
+					.|
+					null|alarm|backspace|tab|newline|return|escape|space|delete|
+					vtab|formfeed|percent|ampersand|comma|slash|colon|semicolon|backslash # new constants
+				))
+				(?=[#\s()\]\[{}`,.]|$)
+			</string>
 		</dict>
 
 		<!-- symbols (+) -->
-		<dict> <!-- regular symbol-->
-			<key>match</key>
-			<string>(?x)
-				(?<=^|\s|[#()\]\[{}]) # word boundary
-				('|`)\s*
-				([^\s()\[\]{}#|`,.]+) # not a non word chars
-			</string>
+		<!-- regular symbol (+) -->
+		<dict>
 			<key>name</key>
 			<string>entity.name.tag</string>
+
+			<key>match</key>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}])
+				('|`)\s*
+				([^\s()\[\]{}#|`,.]+)
+			</string>
 		</dict>
-		<!-- Note: Regular expressions in TextMate grammars will not match across multiple lines.
-		     This is a fundamental limitation of the format.
-		     The only way to match content across multiple lines is to chain begin/end matches. -->
-		<dict> <!-- symbol enclosed in vertical lines -->
+		<!-- symbol enclosed in vertical lines (+) -->
+		<dict>
+			<!-- Note: Regular expressions in TextMate grammars will not match across multiple lines.
+				This is a fundamental limitation of the format.
+				So, the only way to match content across multiple lines is to chain begin/end matches. -->
+			<key>name</key>
+			<string>entity.name.tag</string>
+
 			<key>begin</key>
 			<string>(?x)
-				(?:^|\s|[#()\]\[{}]) # word boundary
+				(?:^|\s|[#()\]\[{}])
 				('|`)\s*\|
 			</string>
 			<key>end</key>
 			<string>\|</string>
-			<key>name</key>
-			<string>entity.name.tag</string>
 		</dict>
-
-		<!-- builtin regular expressions -->
+        <!-- symbol functions (+) -->
 		<dict>
-			<!-- replace s/.../.../-->
+			<key>name</key>
+			<string>entity.name.function.symbols</string>
+
 			<key>match</key>
 			<string>(?x)
-				(?<=^|\s|[#()\]\[{}|]) # word boundary
+				(?:^|\s|[#()\]\[{}])
 				(
-					(m|c)/
+					symbol\?|symbol=\?|string->symbol
+				)
+				(?=\s|[#()\]\[{}]|$)
+			</string>
+        </dict>
+
+		<!-- builtin regular expressions -->
+		<!-- TODO: add subpatterns (like in strings) -->
+		<dict>
+			<key>name</key>
+			<string>keyword.other</string>
+
+			<key>match</key>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}|])
+				(
+					(m|c)/             # match / cut
 					((\\/)|[^/])+
 					/
-				)|(
+				)|(                    # grab
 					g/
 					((\\/)|[^/])+
 					/g?
 				)|(
-					s/
+					s/                 # substitute
 					((\\/)|[^/])+
 					/
 					((\\/)|[^/])*
 					/g?
 				)
-				(?=[#\s()\]\[{}`,.]|$) # not a word char
+				(?=[#\s()\]\[{}`,.]|$)
 			</string>
-			<key>name</key>
-			<string>keyword.other</string>
 		</dict>
 
-		<!-- character constants (+) -->
-		<dict>
-			<key>match</key>
-			<string>(?x)
-				(?<=^|\s|[#()\]\[{}|]) # word boundary
-				(\#\\(.|null|alarm|backspace|tab|newline|return|escape|space|delete))
-				(?=[#\s()\]\[{}`,.]|$) # not a word chars
-			</string>
-			<key>name</key>
-			<string>constant.character.escape</string>
-		</dict>
-		
 		<!-- numbers. todo: add complex and rational numbers -->
+		<!-- TODO: rework please! -->
 		<dict>
 			<key>match</key>
 			<string>(?:^|\s|[#()\]\[{}])(([0-9]+)|(#((b[01]+)|(o[0-7]+)|(d[0-9]+)|(x[0-9a-fA-F]+)))|\+nan\.0|\+inf\.0|\-inf\.0)(?=\s|[#()\]\[{}]|$)</string>
@@ -184,7 +245,7 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>constant.numeric.scheme</string>
+					<string>constant.numeric</string>
 				</dict>
 			</dict>
 		</dict>
@@ -239,18 +300,153 @@
 				</dict>
 			</array>
 		</dict>
-        <!-- (owl string) /incomplete -->
+        <!-- string functions (+) -->
 		<dict>
+			<key>name</key>
+			<string>entity.name.function.strings</string>
+
 			<key>match</key>
 			<string>(?x)
-				(?:^|\s|[#()\]\[{}]) # word boundary
+				(?:^|\s|[#()\]\[{}])
 				(
 					string|make-string|substring|string-map|
-					runes->string|bytes->string|string->bytes|string->runes|list->string|string->list|symbol->string|string->symbol|
+					runes->string|bytes->string|string->bytes|string->runes|list->string|string->list|symbol->string|string->number|number->string|
 					string-ref|string-length|string-append|string-copy|
 					c-string|null-terminate|
 					finish-string|format-string|format-quoted-string|
 					(string|string-eq|string=|string<|string>|string<=|string>=|string-ci=|string-ci<|string-ci>|string-ci<=|string-ci>=)\?
+				)
+				(?=\s|[#()\]\[{}]|$)
+			</string>
+        </dict>
+
+        <!-- r7rs -->
+		<!-- special case: function definitions -->
+		<!-- TODO: rework -->
+		<dict>
+			<key>match</key>
+			<string>(?:\()(define)\s+\(([^\[\]`#(){}\|;'",. ]*)(?=\s|[#()\]\[{}]|$)</string>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.control</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function</string>
+				</dict>
+			</dict>
+        </dict>
+
+        <!-- builtin predicates (+) -->
+		<dict>
+			<key>name</key>
+			<string>keyword.control.predicate</string>
+
+			<key>match</key>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}|]) # word boundary
+				((
+					eq|eqv|equal|less|greater|fless|
+					null|empty|eof|value|reference|
+					exact|inexact|bytecode|function|
+					ff
+				)\?)
+				(?=[#\s()\]\[{}`,.]|$) # not a word chars
+			</string>
+		</dict>
+        <!-- other predicates (+) -->
+		<dict>
+			<key>name</key>
+			<string>entity.name.function.ol.predicate</string>
+
+			<key>match</key>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}|]) # word boundary
+				((
+					boolean|char|port|
+					zero|integer|rational|real|complex|number|
+					vector|
+					procedure|list|
+					has|boolean= # todo: move to proper place
+				)\?)
+				(?=[#\s()\]\[{}`,.]|$) # not a word chars
+			</string>
+		</dict>
+
+        <!-- basic r7rs functions -->
+		<dict>
+			<key>name</key>
+			<string>keyword.control</string>
+
+			<key>match</key>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}|])
+				(
+					λ|lambda|quote|values|apply|apply/cc|
+					call-with-current-continuation|call/cc|
+					cons|ref|type|size|set-ref|values-apply|vector-apply|ff-apply|
+					car|cdr|
+					caar|cadr|cdar|cddr|
+					caaar|caadr|cadar|caddr|cdaar|cdadr|cddar|cdddr|
+					caaaar|caaadr|caadar|caaddr|cadaar|cadadr|caddar|cadddr|cdaaar|cdaadr|cdadar|cdaddr|cddaar|cddadr|cdddar|cddddr
+				)
+				(?=[#\s()\]\[{}`,.]|$)
+			</string>
+		</dict>
+
+		<!-- non-functional functions -->
+		<dict>
+			<key>name</key>
+			<string>keyword.control.!</string>
+
+			<key>match</key>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}|])
+				(
+					set!|set-ref!|set-car!|set-cdr!
+				)
+				(?=[#\s()\]\[{}`,.]|$)
+			</string>
+		</dict>
+
+<!-- ******************************************************************************************* -->
+
+        <!-- common r7rs functions -->
+		<dict>
+			<key>match</key>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}|]) # word boundary
+				(letrec|let|let\*|if|unless|when|cond|case|case-lambda|and|or|not|delay|force|quasiquote|define|length|append|reverse|ilist|call-with-values|define-values|list-ref|map|exec|yield|halt|wait|set|put|get|then|else|let\*/cc)
+				(?=[#\s()\]\[{}`,.]|$) # not a word chars
+			</string>
+			<key>name</key>
+			<string>entity.name.function</string>
+		</dict>
+
+        <!-- other r7rs functions -->
+		<dict>
+			<key>match</key>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}|]) # word boundary
+				(inexact|exact|exact->inexact|inexact->exact|list-tail|list-set!|memq|memv|member|list-copy|list)
+				(?=[#\s()\]\[{}`,.]|$) # not a word chars
+			</string>
+			<key>name</key>
+			<string>entity.name.function</string>
+		</dict>
+
+        <!-- libraries -->
+        <!-- (scheme vector) /incomplete -->
+		<dict>
+			<key>match</key>
+			<string>(?x)
+				(?:^|\s|[#()\]\[{}])
+				(
+					make-vector|vector|vector-length|vector-ref|vector-set!|vector->list|list->vector|vector->string|string->vector|vector-copy|vector-copy!|vector-append|vector-fill!|vector-for-each|vector-map|vector-fold|vector-foldr
 				)
 				(?=\s|[#()\]\[{}]|$)
 			</string>
@@ -264,100 +460,30 @@
 			</dict>
         </dict>
 
-        <!-- r7rs -->
-		<!-- special case: function defines -->
+        <!-- (scheme bytevector) -->
 		<dict>
 			<key>match</key>
-			<string>(?:\()(define)\s+\(([^\[\]`#(){}\|;'",. ]*)(?=\s|[#()\]\[{}]|$)</string>
+			<string>(?x)
+				(?:^|\s|[#()\]\[{}])
+				(
+					bytevector\??|make-bytevector|
+					bytevector-length|bytevector-u8-ref|bytevector-u8-set!|
+					bytevector-copy|bytevector-copy!|bytevector-append|
+					utf8->string|string->utf8|
+					bytevector->list|list->bytevector
+				)
+				(?=\s|[#()\]\[{}]|$)
+			</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>keyword.control.scheme</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.function.scheme</string>
+					<string>entity.name.function.ol.scheme.bytevector</string>
 				</dict>
 			</dict>
         </dict>
 
-        <!-- vm primitives -->
-		<dict>
-			<key>match</key>
-			<string>(?x)
-				(?<=^|\s|[#()\]\[{}|]) # word boundary
-				(syntax-error|runtime-error|assert|error|raise|raise-continuable|clock|syscall|\*features\*)
-				(?=[#\s()\]\[{}`,.]|$) # not a word chars
-			</string>
-			<key>name</key>
-			<string>keyword.control.ol</string>
-		</dict>
-
-        <!-- builtin predicates -->
-		<dict>
-			<key>match</key>
-			<string>(?x)
-				(?<=^|\s|[#()\]\[{}|]) # word boundary
-				((eq|eqv|equal|less|greater|fless|has|null|empty|eof|value|reference|zero|integer|rational|complex|real|number|exact|inexact|boolean|pair|symbol|vector|port|procedure|bytecode|function|ff|symbol=|list|bytevector)\?)
-				(?=[#\s()\]\[{}`,.]|$) # not a word chars
-			</string>
-			<key>name</key>
-			<string>keyword.control.predicate</string>
-		</dict>
-
-        <!-- basic r7rs functions -->
-		<dict>
-			<key>match</key>
-			<string>(?x)
-				(?<=^|\s|[#()\]\[{}|]) # word boundary
-				(λ|lambda|quote|values|apply|apply/cc|call-with-current-continuation|call/cc|cons|car|cdr|ref|type|size|set-ref|set-ref!|values-apply|vector-apply|ff-apply|ff:black|ff:red|ff:toggle|ff:red\?|ff:right\?)
-				(?=[#\s()\]\[{}`,.]|$) # not a word chars
-			</string>
-			<key>name</key>
-			<string>keyword.control</string>
-		</dict>
-
-        <!-- common r7rs functions -->
-		<dict>
-			<key>match</key>
-			<string>(?x)
-				(?<=^|\s|[#()\]\[{}|]) # word boundary
-				(letrec|let|let\*|if|unless|when|cond|case|case-lambda|and|or|not|delay|force|quasiquote|define|length|append|reverse|ilist|call-with-values|define-values|list-ref|map|exec|yield|halt|wait|set|set!|set-car!|set-cdr!|put|get|then|else|let\*/cc)
-				(?=[#\s()\]\[{}`,.]|$) # not a word chars
-			</string>
-			<key>name</key>
-			<string>entity.name.function</string>
-		</dict>
-
-        <!-- other r7rs functions -->
-		<dict>
-			<key>match</key>
-			<string>(?x)
-				(?<=^|\s|[#()\]\[{}|]) # word boundary
-				(inexact|exact|exact->inexact|inexact->exact|list-tail|list-set!|memq|memv|member|list-copy|bytevector|list|make-bytevector)
-				(?=[#\s()\]\[{}`,.]|$) # not a word chars
-			</string>
-			<key>name</key>
-			<string>entity.name.function</string>
-		</dict>
-
-        <!-- libraries -->
-        <!-- (scheme vector) /incomplete -->
-		<dict>
-			<key>match</key>
-			<string>(?:^|\s|[#()\]\[{}])(make-vector|vector|vector-length|vector-ref|vector-set!|vector->list|list->vector|vector->string|string->vector|vector-copy|vector-copy!|vector-append|vector-fill!|vector-for-each|vector-map|vector-fold|vector-foldr)(?=\s|[#()\]\[{}]|$)</string>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.function.ol.owl.strings</string>
-				</dict>
-			</dict>
-        </dict>
         <!-- (owl io) -->
 		<dict>
 			<key>match</key>
@@ -374,7 +500,7 @@
         <!-- (owl list) -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|\s|[#()\]\[{}])(null|caar|cadr|cdar|cddr|caaar|caadr|cadar|caddr|cdaar|cdadr|cddar|cdddr|zip|for|fold|foldr|for-each|iota|has\?|getq|last|drop-while|mem|fold-map|foldr-map|append|reverse|keep|remove|all|some|smap|unfold|take-while|fold2|first|halve|caaaar|caaadr|caadar|caaddr|cadaar|cadadr|caddar|cadddr|cdaaar|cdaadr|cdadar|cdaddr|cddaar|cddadr|cdddar|cddddr)(?=\s|[#()\]\[{}]|$)</string>
+			<string>(?:^|\s|[#()\]\[{}])(null|zip|for|fold|foldr|for-each|iota|has\?|getq|last|drop-while|mem|fold-map|foldr-map|append|reverse|keep|remove|all|some|smap|unfold|take-while|fold2|first|halve)(?=\s|[#()\]\[{}]|$)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
