@@ -1,3 +1,5 @@
+* 1.1.1: fully covered (scheme base)
+         changed "local bindings" color
 * 1.1.0: large grammar refactoring
 * 1.0.4: strings fix and string functions update
 * 1.0.3: more i/o functions

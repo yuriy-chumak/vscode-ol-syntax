@@ -63,7 +63,7 @@
 			<string>(?x)^
 				,(
 					help|
-					words|find|expand|
+					w|words|find|expand|
 					d|dis|disassembly|
 					libs|libraries|
 					l|load|include|
@@ -404,7 +404,6 @@
 				(?<=^|\s|[#()\]\[{}|])
 				(
 					λ|lambda|quote|values|apply|apply/cc|
-					call-with-current-continuation|call/cc|
 					cons|ref|type|size|set-ref|values-apply|vector-apply|ff-apply|
 					car|cdr|
 					caar|cadr|cdar|cddr|
@@ -474,9 +473,11 @@
 			<string>(?x)
 				(?<=^|\s|[#()\]\[{}|]) # word boundary
 				(
-					letrec|let|let\*|let\*/cc|begin|
+					letrec|let|let\*|begin|
+					call-with-current-continuation|call/cc|let\*/cc|
 					if|then|else|when|unless|cond|case|case-lambda|
-					map|fold|foldr|for-each
+					map|fold|foldr|for-each|
+					parameterize
 				)
 				(?=[#\s()\]\[{}`,.]|$) # not a word chars
 			</string>
@@ -488,7 +489,7 @@
 			<string>(?x)
 				(?<=^|\s|[#()\]\[{}|]) # word boundary
 				(
-					inexact\??|exact\??|exact->inexact|inexact->exact|
+					inexact\??|exact\??|exact-integer\?|exact->inexact|inexact->exact|
 					memq|memv|member|assq|assv|assoc|
 					list-tail|list-set!|list-copy|list|make-list|
 					dlopen|dlsym|dlclose
@@ -567,7 +568,8 @@
 				(
 					open-output-file|open-binary-output-file|open-input-file|open-binary-input-file|flush-port|close-port|wait-write|blocks->port|closing-blocks->port|fd->bytevector|file->bytevector|bytevector->file|file->blob|file->vector|file->list|vector->file|port->bytestream|file->bytestream|bytestream->port|bytestream->file|port->string|file->string|open-input-string|open-output-string|get-output-string|stdin|stdout|stderr|display-to|print-to|display|print|print\*|print\*-to|write|writer-to|
 					write-(to|simple|bytes|bytevector|vector|bytestream|char|string|u8)|
-					newline|get-block|try-get-block|lines|system-print|system-println|system-stderr|fasl-save|fasl-load
+					newline|get-block|try-get-block|lines|system-print|system-println|system-stderr|fasl-save|fasl-load|
+					current-error-port|current-input-port|current-output-port|eof-object|eof-object\?|flush-output-port
 				)
 				(?=\s|[#()\]\[{}]|$)
 			</string>
@@ -627,7 +629,7 @@
 					quot|quotrem|divmod|
 					negate|divide|
 					gcd|gcdl|lcm|ncr|npr|fib|
-					square|sum|product|expt|expt-mod|
+					square|sqrt|sum|product|expt|expt-mod|
 					ilog|ilog2|isqrt|iroot|iexpt|
 					format-number|
 					exact-integer-sqrt|rationalize|
