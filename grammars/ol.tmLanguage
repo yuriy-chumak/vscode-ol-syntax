@@ -54,6 +54,24 @@
 			<string>\|#</string>
 		</dict>
 
+		<!-- REPL -->
+		<dict>
+			<key>name</key>
+			<string>entity.name.type</string>
+
+			<key>match</key>
+			<string>(?x)^
+				,(
+					help|
+					words|find|expand|
+					d|dis|disassembly|
+					libs|libraries|
+					l|load|include|
+					save|quit
+				)(\s|$)
+			</string>
+		</dict>
+
 		<!-- olvm keywords (template) (+) -->
 		<dict>
 			<key>name</key>
