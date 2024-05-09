@@ -476,8 +476,7 @@
 					letrec|let|let\*|begin|
 					call-with-current-continuation|call/cc|let\*/cc|
 					if|then|else|when|unless|cond|case|case-lambda|
-					map|fold|foldr|for-each|
-					parameterize
+					for-each|parameterize
 				)
 				(?=[#\s()\]\[{}`,.]|$) # not a word chars
 			</string>
@@ -585,7 +584,7 @@
         <!-- (owl list) -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|\s|[#()\]\[{}])(null|zip|for|iota|has\?|getq|last|drop-while|mem|fold-map|foldr-map|append|reverse|keep|remove|all|some|smap|unfold|take-while|fold2|first|halve)(?=\s|[#()\]\[{}]|$)</string>
+			<string>(?:^|\s|[#()\]\[{}])(null|zip|for|map|fold|foldr|iota|has\?|getq|last|drop-while|mem|fold-map|foldr-map|append|reverse|keep|remove|all|some|smap|unfold|take-while|fold2|first|halve)(?=\s|[#()\]\[{}]|$)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
