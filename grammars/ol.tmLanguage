@@ -191,6 +191,31 @@
 
 		<!-- strings (+) -->
 		<dict>
+			<key>name</key>
+			<string>string.quoted.double</string>
+
+			<key>begin</key>
+			<string>"</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.begin</string>
+				</dict>
+			</dict>
+
+			<key>end</key>
+			<string>"</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.end</string>
+				</dict>
+			</dict>
+
 			<!-- string subpatters -->
 			<key>patterns</key>
 			<array>
@@ -217,7 +242,18 @@
         <!-- (owl string) /incomplete -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|\s|[#()\]\[{}])(string|make-string|runes->string|bytes->string|string->bytes|string->runes|list->string|string->list|string-length|substring|string-eq\?|string-append|c-string|null-terminate|finish-string|render-string|render-quoted-string|symbol->string|string->symbol|string-ref|(string=|string<|string>|string<=|string>=|string-ci=|string-ci<|string-ci>|string-ci<=|string-ci>=)\?)(?=\s|[#()\]\[{}]|$)</string>
+			<string>(?x)
+				(?:^|\s|[#()\]\[{}]) # word boundary
+				(
+					string|make-string|substring|string-map|
+					runes->string|bytes->string|string->bytes|string->runes|list->string|string->list|symbol->string|string->symbol|
+					string-ref|string-length|string-append|string-copy|
+					c-string|null-terminate|
+					finish-string|format-string|format-quoted-string|
+					(string|string-eq|string=|string<|string>|string<=|string>=|string-ci=|string-ci<|string-ci>|string-ci<=|string-ci>=)\?
+				)
+				(?=\s|[#()\]\[{}]|$)
+			</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
@@ -265,7 +301,7 @@
 			<key>match</key>
 			<string>(?x)
 				(?<=^|\s|[#()\]\[{}|]) # word boundary
-				((eq|eqv|equal|less|greater|fless|has|null|empty|eof|value|reference|zero|integer|rational|complex|real|number|exact|inexact|boolean|pair|symbol|vector|port|procedure|bytecode|function|ff|symbol=|list|bytevector|string)\?)
+				((eq|eqv|equal|less|greater|fless|has|null|empty|eof|value|reference|zero|integer|rational|complex|real|number|exact|inexact|boolean|pair|symbol|vector|port|procedure|bytecode|function|ff|symbol=|list|bytevector)\?)
 				(?=[#\s()\]\[{}`,.]|$) # not a word chars
 			</string>
 			<key>name</key>
