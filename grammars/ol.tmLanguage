@@ -214,6 +214,19 @@
 				</dict>
 			</array>
 		</dict>
+        <!-- (owl string) /incomplete -->
+		<dict>
+			<key>match</key>
+			<string>(?:^|\s|[#()\]\[{}])(string|make-string|runes->string|bytes->string|string->bytes|string->runes|list->string|string->list|string-length|substring|string-eq\?|string-append|c-string|null-terminate|finish-string|render-string|render-quoted-string|symbol->string|string->symbol|string-ref|(string=|string<|string>|string<=|string>=|string-ci=|string-ci<|string-ci>|string-ci<=|string-ci>=)\?)(?=\s|[#()\]\[{}]|$)</string>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.ol.owl.strings</string>
+				</dict>
+			</dict>
+        </dict>
 
         <!-- r7rs -->
 		<!-- special case: function defines -->
@@ -296,19 +309,6 @@
 		</dict>
 
         <!-- libraries -->
-        <!-- (owl strings) /incomplete -->
-		<dict>
-			<key>match</key>
-			<string>(?:^|\s|[#()\]\[{}])(string|make-string|runes->string|bytes->string|string->bytes|string->runes|list->string|string->list|string-length|substring|string-eq\?|string-append|c-string|null-terminate|finish-string|render-string|render-quoted-string|symbol->string|string->symbol|string-ref|(string=|string<|string>|string<=|string>=|string-ci=|string-ci<|string-ci>|string-ci<=|string-ci>=)\?)(?=\s|[#()\]\[{}]|$)</string>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.function.ol.owl.strings</string>
-				</dict>
-			</dict>
-        </dict>
         <!-- (scheme vector) /incomplete -->
 		<dict>
 			<key>match</key>
