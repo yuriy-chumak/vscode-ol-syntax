@@ -353,7 +353,7 @@
 					eq|eqv|equal|less|greater|fless|
 					null|empty|eof|value|reference|
 					exact|inexact|bytecode|function|
-					ff
+					ff|pair
 				)\?)
 				(?=[#\s()\]\[{}`,.]|$) # not a word chars
 			</string>
@@ -361,15 +361,14 @@
         <!-- other predicates (+) -->
 		<dict>
 			<key>name</key>
-			<string>entity.name.function.ol.predicate</string>
+			<string>entity.name.function.predicate</string>
 
 			<key>match</key>
 			<string>(?x)
 				(?<=^|\s|[#()\]\[{}|]) # word boundary
 				((
-					boolean|char|port|
+					boolean|port|
 					zero|integer|rational|real|complex|number|
-					vector|
 					procedure|list|
 					has|boolean= # todo: move to proper place
 				)\?)
@@ -392,7 +391,8 @@
 					car|cdr|
 					caar|cadr|cdar|cddr|
 					caaar|caadr|cadar|caddr|cdaar|cdadr|cddar|cdddr|
-					caaaar|caaadr|caadar|caaddr|cadaar|cadadr|caddar|cadddr|cdaaar|cdaadr|cdadar|cdaddr|cddaar|cddadr|cdddar|cddddr
+					caaaar|caaadr|caadar|caaddr|cadaar|cadadr|caddar|cadddr|cdaaar|cdaadr|cdadar|cdaddr|cddaar|cddadr|cdddar|cddddr|
+					idf|\+\+|--
 				)
 				(?=[#\s()\]\[{}`,.]|$)
 			</string>
@@ -413,9 +413,28 @@
 			</string>
 		</dict>
 
-<!-- ******************************************************************************************* -->
+		<!-- ol object types -->
+		<dict>
+			<key>name</key>
+			<string>constant.numeric.type</string>
 
-        <!-- common r7rs functions -->
+			<key>match</key>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}|])
+				(type-(
+					pair|symbol|const|port|
+					enum[+-]|int[+-]|
+					rational|complex|inexact|
+					bytecode|procedure|closure|constructor|
+					vector|bytevector|
+					string|string-wide|string-dispatch|
+					thread-state|vptr
+				))
+				(?=[#\s()\]\[{}`,.]|$)
+			</string>
+		</dict>
+
+        <!-- common r7rs functions (TODO: fix this) -->
 		<dict>
 			<key>match</key>
 			<string>(?x)
@@ -427,12 +446,17 @@
 			<string>entity.name.function</string>
 		</dict>
 
-        <!-- other r7rs functions -->
+        <!-- other r7rs functions (TODO: fix this) -->
 		<dict>
 			<key>match</key>
 			<string>(?x)
 				(?<=^|\s|[#()\]\[{}|]) # word boundary
-				(inexact|exact|exact->inexact|inexact->exact|list-tail|list-set!|memq|memv|member|list-copy|list)
+				(
+					inexact|exact|exact->inexact|inexact->exact|
+					memq|memv|member|assq|assv|assoc|
+					list-tail|list-set!|list-copy|list|make-list|
+					dlopen|dlsym|dlclose
+				)
 				(?=[#\s()\]\[{}`,.]|$) # not a word chars
 			</string>
 			<key>name</key>
@@ -440,28 +464,27 @@
 		</dict>
 
         <!-- libraries -->
-        <!-- (scheme vector) /incomplete -->
+        <!-- (scheme vector) (+) -->
 		<dict>
+			<key>name</key>
+			<string>entity.name.function.scheme.vector</string>
+
 			<key>match</key>
 			<string>(?x)
 				(?:^|\s|[#()\]\[{}])
 				(
-					make-vector|vector|vector-length|vector-ref|vector-set!|vector->list|list->vector|vector->string|string->vector|vector-copy|vector-copy!|vector-append|vector-fill!|vector-for-each|vector-map|vector-fold|vector-foldr
+					vector\??|make-vector|
+					vector-length|vector-ref|vector-set!|vector->list|list->vector|vector->string|string->vector|vector-copy|vector-copy!|vector-append|vector-fill!|vector-for-each|vector-map|vector-fold|vector-foldr
 				)
 				(?=\s|[#()\]\[{}]|$)
 			</string>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.function.ol.owl.strings</string>
-				</dict>
-			</dict>
         </dict>
 
-        <!-- (scheme bytevector) -->
+        <!-- (scheme bytevector) (+) -->
 		<dict>
+			<key>name</key>
+			<string>entity.name.function.scheme.bytevector</string>
+
 			<key>match</key>
 			<string>(?x)
 				(?:^|\s|[#()\]\[{}])
@@ -474,15 +497,31 @@
 				)
 				(?=\s|[#()\]\[{}]|$)
 			</string>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.function.ol.scheme.bytevector</string>
-				</dict>
-			</dict>
         </dict>
+
+		<!-- (scheme char) -->
+		<dict>
+			<key>name</key>
+			<string>entity.name.function.scheme.char</string>
+
+			<key>match</key>
+			<string>(?x)
+				(?:^|\s|[#()\]\[{}])
+				(
+					char\?|
+					(char(<=|<|=|>=|>)\?)|
+					(char-(
+						(ci=|ci<|ci>|ci<=|ci>=)\?|
+						upcase|
+						(alphabetic|numeric|whitespace)\?))|
+					char->integer|integer->char|
+					digit-value
+				)
+				(?=\s|[#()\]\[{}]|$)
+			</string>
+        </dict>
+
+<!-- ******************************************************************************************* -->
 
         <!-- (owl io) -->
 		<dict>
