@@ -352,7 +352,7 @@
 				((
 					eq|eqv|equal|less|greater|fless|
 					null|empty|eof|value|reference|
-					exact|inexact|bytecode|function|
+					bytecode|function|
 					ff|pair
 				)\?)
 				(?=[#\s()\]\[{}`,.]|$) # not a word chars
@@ -368,7 +368,7 @@
 				(?<=^|\s|[#()\]\[{}|]) # word boundary
 				((
 					boolean|port|
-					zero|integer|rational|real|complex|number|
+					zero|integer|rational|real|complex|number|natural|
 					procedure|list|
 					has|boolean= # todo: move to proper place
 				)\?)
@@ -392,7 +392,8 @@
 					caar|cadr|cdar|cddr|
 					caaar|caadr|cadar|caddr|cdaar|cdadr|cddar|cdddr|
 					caaaar|caaadr|caadar|caaddr|cadaar|cadadr|caddar|cadddr|cdaaar|cdaadr|cdadar|cdaddr|cddaar|cddadr|cdddar|cddddr|
-					idf|\+\+|--
+					idf|\+\+|--|
+					cons\*
 				)
 				(?=[#\s()\]\[{}`,.]|$)
 			</string>
@@ -452,7 +453,7 @@
 			<string>(?x)
 				(?<=^|\s|[#()\]\[{}|]) # word boundary
 				(
-					inexact|exact|exact->inexact|inexact->exact|
+					inexact\??|exact\??|exact->inexact|inexact->exact|
 					memq|memv|member|assq|assv|assoc|
 					list-tail|list-set!|list-copy|list|make-list|
 					dlopen|dlsym|dlclose
@@ -526,7 +527,15 @@
         <!-- (owl io) -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|\s|[#()\]\[{}])(open-output-file|open-binary-output-file|open-input-file|open-binary-input-file|flush-port|close-port|wait-write|blocks->port|closing-blocks->port|fd->bytevector|file->bytevector|bytevector->file|file->blob|write-blob|file->vector|file->list|vector->file|write-vector|port->bytestream|file->bytestream|bytestream->port|bytestream->file|port->string|file->string|write-bytestream|write-simple|open-input-string|open-output-string|get-output-string|stdin|stdout|stderr|display-to|print-to|display|print|print\*|print\*-to|write|writer-to|write-to|write-bytes|write-bytevector|newline|get-block|try-get-block|lines|system-print|system-println|system-stderr|fasl-save|fasl-load)(?=\s|[#()\]\[{}]|$)</string>
+			<string>(?x)
+				(?:^|\s|[#()\]\[{}])
+				(
+					open-output-file|open-binary-output-file|open-input-file|open-binary-input-file|flush-port|close-port|wait-write|blocks->port|closing-blocks->port|fd->bytevector|file->bytevector|bytevector->file|file->blob|file->vector|file->list|vector->file|port->bytestream|file->bytestream|bytestream->port|bytestream->file|port->string|file->string|open-input-string|open-output-string|get-output-string|stdin|stdout|stderr|display-to|print-to|display|print|print\*|print\*-to|write|writer-to|
+					write-(to|simple|bytes|bytevector|vector|bytestream|char|string|u8)|
+					newline|get-block|try-get-block|lines|system-print|system-println|system-stderr|fasl-save|fasl-load
+				)
+				(?=\s|[#()\]\[{}]|$)
+			</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
