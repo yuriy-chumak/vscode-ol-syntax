@@ -129,7 +129,7 @@
 			<key>match</key>
 			<string>(?x)
 				(?<=^|\s|[#()\]\[{}|])
-				(begin|define-syntax|syntax-rules|define-library|import|export|exports|cond-expand|define-macro)
+				(define-syntax|syntax-rules|define-library|import|export|exports|cond-expand|define-macro)
 				(?=[#\s()\]\[{}`,.]|$)
 			</string>
 		</dict>
@@ -386,7 +386,7 @@
 				(?<=^|\s|[#()\]\[{}|]) # word boundary
 				((
 					boolean|port|
-					zero|integer|rational|real|complex|number|natural|
+					integer|rational|real|complex|number|
 					procedure|list|
 					has|boolean= # todo: move to proper place
 				)\?)
@@ -458,11 +458,28 @@
 			<key>match</key>
 			<string>(?x)
 				(?<=^|\s|[#()\]\[{}|]) # word boundary
-				(letrec|let|let\*|if|unless|when|cond|case|case-lambda|and|or|not|delay|force|quasiquote|define|length|append|reverse|ilist|call-with-values|define-values|list-ref|map|exec|yield|halt|wait|set|put|get|then|else|let\*/cc)
+				(and|or|not|delay|force|quasiquote|define|length|append|reverse|ilist|call-with-values|define-values|list-ref|exec|yield|halt|wait|set|put|get)
 				(?=[#\s()\]\[{}`,.]|$) # not a word chars
 			</string>
 			<key>name</key>
 			<string>entity.name.function</string>
+		</dict>
+
+		<!-- local bindings -->
+		<dict>
+			<key>name</key>
+			<string>entity.name.tag.css</string>
+
+			<key>match</key>
+			<string>(?x)
+				(?<=^|\s|[#()\]\[{}|]) # word boundary
+				(
+					letrec|let|let\*|let\*/cc|begin|
+					if|then|else|when|unless|cond|case|case-lambda|
+					map|fold|foldr|for-each
+				)
+				(?=[#\s()\]\[{}`,.]|$) # not a word chars
+			</string>
 		</dict>
 
         <!-- other r7rs functions (TODO: fix this) -->
@@ -566,7 +583,7 @@
         <!-- (owl list) -->
 		<dict>
 			<key>match</key>
-			<string>(?:^|\s|[#()\]\[{}])(null|zip|for|fold|foldr|for-each|iota|has\?|getq|last|drop-while|mem|fold-map|foldr-map|append|reverse|keep|remove|all|some|smap|unfold|take-while|fold2|first|halve)(?=\s|[#()\]\[{}]|$)</string>
+			<string>(?:^|\s|[#()\]\[{}])(null|zip|for|iota|has\?|getq|last|drop-while|mem|fold-map|foldr-map|append|reverse|keep|remove|all|some|smap|unfold|take-while|fold2|first|halve)(?=\s|[#()\]\[{}]|$)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
