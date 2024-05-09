@@ -590,6 +590,38 @@
 			</dict>
         </dict>
 
+        <!-- (owl math) -->
+		<dict>
+			<key>name</key>
+			<string>entity.name.function.math</string>
+
+			<key>match</key>
+			<string>(?x)
+				(?:^|\s|[#()\]\[{}])
+				(
+					[*+-/<=>]|
+					<<|<=|>>|>=|\*\*|
+					(zero|positive|negative|odd|even|natural)\?|
+					rational|complex|
+					quotient|remainder|modulo|numerator|denominator|
+					max|min|abs|
+					floor|ceiling|truncate|round|ceil|
+					band|bor|bxor|
+					quot|quotrem|divmod|
+					negate|divide|
+					gcd|gcdl|lcm|ncr|npr|fib|
+					square|sum|product|expt|expt-mod|
+					ilog|ilog2|isqrt|iroot|iexpt|
+					format-number|
+					exact-integer-sqrt|rationalize|
+					[!^]|
+					dlog|dlog-simple|
+					histogram|bisect
+				)
+				(?=\s|[#()\]\[{}]|$)
+			</string>
+        </dict>
+
 	</array>
 
 	<key>scopeName</key>
